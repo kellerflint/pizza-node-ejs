@@ -11,6 +11,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y sshpass
         sshpass -p "${{ secrets.PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
+          export NVM_DIR=~/.nvm
+          [ -s ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
+          [ -s ~/.bashrc ] && source ~/.bashrc  
           cd /home/projects/node-pizza-ejs &&
           git pull origin main || git clone https://github.com/kellerflint/pizza-node-ejs.git . &&
           npm install &&
