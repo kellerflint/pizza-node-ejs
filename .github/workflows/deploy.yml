@@ -1,0 +1,18 @@
+name: Deploy
+on:
+  push:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Production
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y sshpass
+        sshpass -p "${{ secrets.PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
+          cd /home/projects/node-pizza-ejs &&
+          git pull origin main || git clone https://github.com/kellerflint/pizza-node-ejs.git . &&
+          npm install &&
+          pm2 restart node-pizza-ejs || pm2 start app.js --name node-pizza-ejs
+        "
