@@ -8,14 +8,4 @@ jobs:
     steps:
     - name: Deploy to Production
       run: |
-        sudo apt-get update
-        sudo apt-get install -y sshpass
-        sshpass -p "${{ secrets.PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
-          export NVM_DIR=~/.nvm
-          [ -s ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
-          [ -s ~/.bashrc ] && source ~/.bashrc  
-          cd /home/projects/node-pizza-ejs &&
-          git pull origin main || git clone https://github.com/kellerflint/pizza-node-ejs.git . &&
-          npm install &&
-          pm2 restart node-pizza-ejs || pm2 start app.js --name node-pizza-ejs
-        "
+          sshpass -p "${{ secrets.PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "bash -l -c 'cd /home/projects/node-pizza-ejs && git pull && npm install && pm2 restart node-pizza-ejs || pm2 start app.js --name node-pizza-ejs'"
