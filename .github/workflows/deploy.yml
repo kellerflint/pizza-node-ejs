@@ -12,8 +12,9 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        use_login: true  # This fixes the npm/pm2 command not found issue
         script: |
+          export NVM_DIR=~/.nvm
+          [ -s ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
           cd /home/projects/node-pizza-ejs
           git pull origin main || git clone https://github.com/kellerflint/pizza-node-ejs.git .
           npm install
